@@ -1,1 +1,146 @@
-Hadoop, MapReduce, Pig & Hive
+Lab 2: Hadoop, MapReduce, Pig & Hive
+
+
+References:
+[1] A. Bahga, V. Madisetti, “Cloud Computing: A Hands-On Approach”, ISBN: 978-1494435141
+[2] https://pythonhosted.org/mrjob/
+[3] http://hadoop.apache.org/
+[4] http://storage.googleapis.com/books/ngrams/books/datasetsv2.html
+[5] http://pig.apache.org/docs/r0.15.0/basic.html
+[6] https://cwiki.apache.org/confluence/display/Hive/LanguageManual
+
+
+
+Introduction
+
+In this lab you will learn how setup a Hadoop cluster and run MapReduce, Pig and Hive jobs. 
+
+Hadoop Cluster Setup and running Pig & Hive scripts
+A video tutorial is attached with this lab. The video shows:
+•	How to setup a Hadoop cluster (with Amazon EMR)
+•	Access the Hue web interface
+•	SSH into the Hadoop master node
+•	Upload files to HDFS using Hue
+•	Run word count pig script interactively in local mode
+•	Run word count pig script from Hue web interface
+•	Create Hive meta-store table
+•	Run Hive query from Hue web interface
+
+
+SSH into master node:
+ssh -i ~/mykeypair.pem hadoop@publicDNSofMasterInstance
+
+Set up mrJob on master node
+sudo apt-get install python-pip
+sudo pip install mrjob
+
+Run MapReduce programs as follows:
+#Create mrjob.conf file with following contents
+vim  mrjob.conf
+----
+runners:
+    hadoop:
+        hadoop_home: /usr/hdp/2.3.4.0-3485/hadoop
+        hadoop_streaming_jar: /usr/hdp/2.3.4.0-3485/hadoop-mapreduce/hadoop-streaming.jar
+--
+Make sure the paths in the mrjob.conf file exist
+Running word count MapReduce program
+1. Copy input file from your local machine to Hadoop master node:
+
+scp -i mykeypair.pem /home/user/book.txt ubuntu@publicDNSofMaster:/home/ubuntu/
+
+On the Hadoop master node, copy the input file to a new directory named 'in':
+cd /home/ubuntu
+mkdir in
+cp book.txt in/
+
+Copy the 'in' directory to HDFS:
+
+hdfs dfs -put in /in
+
+List files on HDFS and check if directory has been copied:
+hdfs dfs -ls /
+
+Run MapReduce job as follows:
+
+python wordcount.py -r hadoop hdfs:///in --output-dir=hdfs:///out --conf-path=mrjob.conf
+
+After the job is complete, you can find the output in HDFS. You can see the results as follows:
+
+hdfs dfs -cat /out/*
+
+
+You can use the web interface for HDFS to download the output files. For each MapReduce program an outfile by the name (part-00000) will be created in the output directory specified. Change the output directory name each time you run a new MapReduce job (otherwise you will get an error that the output directory already exists).
+
+
+Running Pig on Hadoop master node:
+•	Run Pig in interactive (and local) mode use the command:
+              sudo pig -x local
+
+•	Run Pig in interactive (and MapReduce) mode use the command:
+              sudo pig
+
+•	Run Pig from Hue interface
+
+Dataset to use for this lab
+Use the following Google N-Gram dataset file:
+
+http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-2gram-20090715-50.csv.zip
+
+Copying Data to HDFS
+Get your dataset file on the master node
+cd /home/ubuntu
+wget http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-2gram-20090715-50.csv.zip
+
+
+
+Unzip the file
+sudo apt-get install unzip
+unzip googlebooks-eng-all-2gram-20090715-50.csv.zip
+
+To copy the file to HDFS, run the following command on the master node:
+hdfs dfs -put /home/ubuntu/googlebooks-eng-us-all-2gram-20090715-50.csv /ngraminput
+
+Check if the file was copied:
+hdfs dfs -ls /
+
+Exercises
+1. Implement a MapReduce program that emits the bigrams which were coined after year 1995 (or
+which started appearing after the year 1995).
+Output of the program should include: (bigram, year)
+Example output: (mobile phone, 1996) means that the bigram 'mobile phone' first appeared in the
+dataset in the year 1996.
+
+2. Implement a MapReduce program that emits the average number of times each bigram appears in a book (over all the years). [Average for a particular n-gram is the total count of n-gram (over all the years) divided by the total number of books in which the n-gram appeared (over all the years)]
+Output of the program should include: (bigram, average)
+Example output: (how are, 6) means that the bigram 'how are' appears on average 6 times in a book
+(over all the years).
+
+3. Implement a Pig program that computes the most common bigram in the year 2002 in the
+dataset (as determined by the count field).
+Output of the program should include: (bigram, count)
+Example output: (how many, 5001) means that the bigram 'how many' was the most popular bigram
+in the year 2002 and it appeared a total of 5001 times in all the books in that year.
+
+4. Implement a Pig program that computes the most common bigram in each year in the
+dataset (as determined by the count field).
+Output of the program should include: (year, bigram, count)
+Example output: (2003, mobile phone, 3012) means that in the year 2003 the most popular bigram
+was 'mobile phone' and it appeared 3012 times in all the books in that year. Emit such tuples for
+each year in the dataset.
+
+5. Create a Hive meta-store table from the N-Gram dataset (CSV) file from the Hue web interaface.
+Implement a Hive query (in the SQL-like Hive Query Language) to find the most popular bigram (over all the years). 
+
+6. Implement a Hive query to find the top 10 bigrams in each year in the dataset. 
+
+
+
+Grading Rubric
+1. Hadoop cluster setup and MR Job for word count (submit screenshots of EMR dashboard and Hue interface) – 40%
+2.  Exercise-1 (submit MapReduce program and output file) – 10%
+3.  Exercise-2 (submit MapReduce program and output file) – 10%
+3.  Exercise-3 (submit pig script and output file) – 10%
+4.  Exercise-4 (submit pig script and output file) – 10%
+5.  Exercise-5 (submit screenshots of Hue interface showing Hive query and the results) – 10%
+6.  Exercise-6 (submit screenshots of Hue interface showing Hive query and the results) – 10%
