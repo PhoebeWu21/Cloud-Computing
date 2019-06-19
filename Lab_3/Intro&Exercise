@@ -1,0 +1,74 @@
+Lab 3: Establishing and Applying the ELK Stack for Cyber Analytics
+
+
+References:
+[1] https://dzone.com/articles/how-to-install-the-elk-stack-on-aws-a-step-by-step
+[2] https://logz.io/blog/install-elk-stack-amazon-aws/
+[3] http://www.unb.ca/cic/datasets/index.html
+[4] https://www.sciencedirect.com/science/article/pii/S0167404811001672
+[5] http://scikit-learn.org/stable/
+[6] https://www.tensorflow.org
+[7] https://scipy.org
+[8] https://ipython.org/notebook.html
+[9] https://web.stanford.edu/class/cs259d/
+[10] https://github.com/elastic/examples/tree/master/Security%20Analytics
+
+
+
+Note: Provide all source files separately. Include screenshots for each step.
+
+
+Introduction
+
+In this lab you will learn how to deploy and apply the ELK stack for cyber analytics.
+
+Part I 
+
+1)	Establish the ELK stack in AWS:
+https://dzone.com/articles/how-to-install-the-elk-stack-on-aws-a-step-by-step
+
+2)	Configure logstash to read AWS logs: 
+https://logz.io/blog/install-elk-stack-amazon-aws/
+
+3)	Demonstrate
+a.	Logstach Capture of EC2 instance security logs
+b.	Kibana Graphics View
+
+Part II
+
+1)	Build a Log Analytic Solution in AWS
+a.	Use this file: https://d0.awsstatic.com/Projects/P4113850/aws-projects_build-log-analytics-solution-on-aws.pdf
+
+
+2)	Demonstrate all completion of all tutorial steps. Be sure to specifically highlight success in 
+a.	AWS Elasticsearch
+b.	AWS Kinesis Analytics
+
+
+Part III
+
+1)	Choose an existing cyber data set; reference: http://www.unb.ca/cic/datasets/index.html. Follow links and contact information to acquire.
+2)	Choose atleast one analytic 
+a.	From these examples: https://github.com/elastic/examples/tree/master/Security%20Analytics
+b.	From one of the following frameworks:
+i.	http://scikit-learn.org/stable/
+ii.	https://www.tensorflow.org
+iii.	https://scipy.org
+iv.	https://ipython.org/notebook.html
+
+Consider the following research and guidance for analytic selection: https://web.stanford.edu/class/cs259d/
+
+3)	Select an approach to perform the analytic.  You may use:
+a.	The ELK Stack you set up in Part I using any Apache framework
+b.	The AWS Elasticsearch and Kinesis system you setup in Part II
+c.	The EMR instance you set up in Lab #2.
+4)	Describe your solution in a single design diagram, describe the cyber example log ingested and describe the analytic you are using.
+5)	Demonstrate:
+a.	Cyber Log Ingest
+b.	Analytic Execution
+
+Grading Evaluation:
+1)	Part 1 (33%)
+2)	Part II (33%)
+3)	Part III (34%)
+
