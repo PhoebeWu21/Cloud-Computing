@@ -70,7 +70,9 @@ After the job is complete, you can find the output in HDFS. You can see the resu
 hdfs dfs -cat /out/*
 
 
-You can use the web interface for HDFS to download the output files. For each MapReduce program an outfile by the name (part-00000) will be created in the output directory specified. Change the output directory name each time you run a new MapReduce job (otherwise you will get an error that the output directory already exists).
+You can use the web interface for HDFS to download the output files. For each MapReduce program an outfile by the name (part-00000) 
+will be created in the output directory specified. Change the output directory name each time you run a new MapReduce job 
+(otherwise you will get an error that the output directory already exists).
 
 
 Running Pig on Hadoop master node:
@@ -111,7 +113,9 @@ Output of the program should include: (bigram, year)
 Example output: (mobile phone, 1996) means that the bigram 'mobile phone' first appeared in the
 dataset in the year 1996.
 
-2. Implement a MapReduce program that emits the average number of times each bigram appears in a book (over all the years). [Average for a particular n-gram is the total count of n-gram (over all the years) divided by the total number of books in which the n-gram appeared (over all the years)]
+2. Implement a MapReduce program that emits the average number of times each bigram appears in a book (over all the years). 
+[Average for a particular n-gram is the total count of n-gram (over all the years) divided by the total number of books in 
+which the n-gram appeared (over all the years)]
 Output of the program should include: (bigram, average)
 Example output: (how are, 6) means that the bigram 'how are' appears on average 6 times in a book
 (over all the years).
